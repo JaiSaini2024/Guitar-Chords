@@ -1417,19 +1417,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-window.addEventListener(&#39;DOMContentLoaded&#39;, function () {
+window.addEventListener('DOMContentLoaded', function () {
   const firebaseConfig = {
-    apiKey: &quot;AIzaSyAz3iD45chxwHfGcAnfmx7V3jWYLfcXZOU&quot;,
-    authDomain: &quot;rating-c371c.firebaseapp.com&quot;,
-    databaseURL: &quot;https://rating-c371c-default-rtdb.firebaseio.com&quot;,
-    projectId: &quot;rating-c371c&quot;,
-    storageBucket: &quot;rating-c371c.appspot.com&quot;,
-    messagingSenderId: &quot;214609855829&quot;,
-    appId: &quot;1:214609855829:web:05a8e678bb209087c1dbdc&quot;
+    apiKey: "AIzaSyAz3iD45chxwHfGcAnfmx7V3jWYLfcXZOU",
+    authDomain: "rating-c371c.firebaseapp.com",
+    databaseURL: "https://rating-c371c-default-rtdb.firebaseio.com",
+    projectId: "rating-c371c",
+    storageBucket: "rating-c371c.appspot.com",
+    messagingSenderId: "214609855829",
+    appId: "1:214609855829:web:05a8e678bb209087c1dbdc"
   };
 
-  if (typeof firebase === &quot;undefined&quot;) {
-    console.error(&quot;Firebase library not loaded.&quot;);
+  if (typeof firebase === "undefined") {
+    console.error("Firebase library not loaded.");
     return;
   }
 
@@ -1447,19 +1447,19 @@ window.addEventListener(&#39;DOMContentLoaded&#39;, function () {
     
 // Audio Chord play 
 
-document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
+document.addEventListener('DOMContentLoaded', function () {
   function waitForFirebase(callback, retry = 0) {
     if (window.appAuth) {
       callback();
       return;
     }
 
-    if (retry &gt; 50) {
-      if (window.showToast) window.showToast(&quot;System not ready. Please refresh.&quot;, &quot;error&quot;);
+    if (retry > 50) {
+      if (window.showToast) window.showToast("System not ready. Please refresh.", "error");
       return;
     }
 
-    setTimeout(() =&gt; waitForFirebase(callback, retry + 1), 200);
+    setTimeout(() => waitForFirebase(callback, retry + 1), 200);
   }
 
   waitForFirebase(function () {
@@ -1472,35 +1472,35 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
     let clickState = { count: 0, lastTarget: null, lastClickTime: 0, timer: null };
     let authReady = false;
 
-    auth.onAuthStateChanged((user) =&gt; {
+    auth.onAuthStateChanged((user) => {
       currentUser = user;
       authReady = true;
-      sessionStorage.setItem(&#39;fb-auth-pending&#39;, &#39;false&#39;);
+      sessionStorage.setItem('fb-auth-pending', 'false');
     });
 
     function chordSoundEnabled() {
-      return localStorage.getItem(&quot;user_pref_chordSound&quot;) === &quot;true&quot;;
+      return localStorage.getItem("user_pref_chordSound") === "true";
     }
 
     function clearActiveState() {
-      document.querySelectorAll(&#39;.chord-svg.active-chord, .chord-svg.play-slow, .chord-svg.play-fast, .chord-svg.play-strum&#39;)
-        .forEach(el =&gt; {
-          el.classList.remove(&#39;active-chord&#39;, &#39;play-slow&#39;, &#39;play-fast&#39;, &#39;play-strum&#39;);
+      document.querySelectorAll('.chord-svg.active-chord, .chord-svg.play-slow, .chord-svg.play-fast, .chord-svg.play-strum')
+        .forEach(el => {
+          el.classList.remove('active-chord', 'play-slow', 'play-fast', 'play-strum');
         });
     }
 
     function stopCurrentPlayback() {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
-      audioPlayer.removeAttribute(&#39;src&#39;);
+      audioPlayer.removeAttribute('src');
       isPlaying = false;
       playQueue = [];
       clearActiveState();
     }
 
     function getAudioDurationFallback(type) {
-      if (type === &#39;fast&#39;) return 1400;
-      if (type === &#39;strum&#39;) return 2200;
+      if (type === 'fast') return 1400;
+      if (type === 'strum') return 2200;
       return 1800;
     }
 
@@ -1512,13 +1512,13 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
 
     function playChord({ svg, audioSrc, feedbackClass, playType }) {
       if (!audioSrc || !svg) {
-        if (window.showToast) window.showToast(&quot;Audio source missing!&quot;, &quot;error&quot;);
+        if (window.showToast) window.showToast("Audio source missing!", "error");
         return;
       }
 
       if (!chordSoundEnabled()) {
         stopCurrentPlayback();
-        if (window.showToast) window.showToast(&quot;Chord sound is disabled in your settings.&quot;, &quot;info&quot;);
+        if (window.showToast) window.showToast("Chord sound is disabled in your settings.", "info");
         return;
       }
 
@@ -1529,7 +1529,7 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
       audioPlayer.currentTime = 0;
       audioPlayer.src = audioSrc;
 
-      const finishPlayback = () =&gt; {
+      const finishPlayback = () => {
         isPlaying = false;
         clearActiveState();
         audioPlayer.onended = null;
@@ -1542,93 +1542,93 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
       audioPlayer.onerror = function () {
         isPlaying = false;
         clearActiveState();
-        if (window.showToast) window.showToast(&quot;Playback failed. Try again.&quot;, &quot;error&quot;);
+        if (window.showToast) window.showToast("Playback failed. Try again.", "error");
         playNextFromQueue();
       };
 
       audioPlayer.play()
-        .then(() =&gt; {
-          svg.classList.add(feedbackClass, &#39;active-chord&#39;);
+        .then(() => {
+          svg.classList.add(feedbackClass, 'active-chord');
 
-          setTimeout(() =&gt; {
-            svg.classList.remove(feedbackClass, &#39;active-chord&#39;);
+          setTimeout(() => {
+            svg.classList.remove(feedbackClass, 'active-chord');
           }, Math.min(getAudioDurationFallback(playType), 1200));
         })
-        .catch(() =&gt; {
+        .catch(() => {
           isPlaying = false;
           clearActiveState();
-          if (window.showToast) window.showToast(&quot;Playback failed. Try again.&quot;, &quot;error&quot;);
+          if (window.showToast) window.showToast("Playback failed. Try again.", "error");
           playNextFromQueue();
         });
     }
 
     function preloadAudio(src) {
-      return new Promise((resolve, reject) =&gt; {
+      return new Promise((resolve, reject) => {
         if (!src) {
-          reject(new Error(&quot;missing-src&quot;));
+          reject(new Error("missing-src"));
           return;
         }
 
         const testAudio = new Audio();
         let done = false;
 
-        const cleanup = () =&gt; {
+        const cleanup = () => {
           testAudio.oncanplaythrough = null;
           testAudio.onerror = null;
         };
 
-        testAudio.preload = &quot;auto&quot;;
+        testAudio.preload = "auto";
         testAudio.src = src;
 
-        testAudio.oncanplaythrough = () =&gt; {
+        testAudio.oncanplaythrough = () => {
           if (done) return;
           done = true;
           cleanup();
           resolve(src);
         };
 
-        testAudio.onerror = () =&gt; {
+        testAudio.onerror = () => {
           if (done) return;
           done = true;
           cleanup();
-          reject(new Error(&quot;audio-load-failed&quot;));
+          reject(new Error("audio-load-failed"));
         };
 
         testAudio.load();
 
-        setTimeout(() =&gt; {
+        setTimeout(() => {
           if (done) return;
           done = true;
           cleanup();
-          reject(new Error(&quot;audio-timeout&quot;));
+          reject(new Error("audio-timeout"));
         }, 4000);
       });
     }
 
-    document.addEventListener(&#39;click&#39;, function (e) {
-      const chordCard = e.target.closest(&#39;.chord-card&#39;);
+    document.addEventListener('click', function (e) {
+      const chordCard = e.target.closest('.chord-card');
       if (!chordCard) return;
 
-      const svg = chordCard.querySelector(&#39;.chord-svg&#39;);
+      const svg = chordCard.querySelector('.chord-svg');
       if (!svg) return;
 
       if (!authReady) return;
 
       if (!currentUser) {
         if (window.showToast) {
-          window.showToast(&quot;Please <a href='javascript:void(0)' onclick='window.loginWithGoogle()' style='color:inherit;text-decoration:underline;font-weight:700;'>Login</a> to play chords&quot;, &quot;error&quot;);
+          window.showToast("Please <a href='javascript:void(0)' onclick='window.loginWithGoogle()' style='color:inherit;text-decoration:underline;font-weight:700;'>Login</a> to play chords", "error");
         }
         return;
       }
 
       if (!chordSoundEnabled()) {
         stopCurrentPlayback();
-        if (window.showToast) window.showToast(&quot;Chord sound is disabled in your settings.&quot;, &quot;info&quot;);
+        if (window.showToast) window.showToast("Chord sound is disabled in your settings.", "info");
         return;
       }
 
       const now = Date.now();
-      if (clickState.lastTarget !== chordCard || (now - clickState.lastClickTime) &gt; 500) {
+      if (clickState.lastTarget !== chordCard || (now - clickState.lastClickTime) > 500) {
         clickState.count = 0;
       }
 
@@ -1638,29 +1638,29 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
 
       if (clickState.timer) clearTimeout(clickState.timer);
 
-      clickState.timer = setTimeout(async () =&gt; {
-        let audioSrc = &#39;&#39;;
-        let feedbackClass = &#39;&#39;;
-        let playType = &#39;slow&#39;;
+      clickState.timer = setTimeout(async () => {
+        let audioSrc = '';
+        let feedbackClass = '';
+        let playType = 'slow';
 
-        if (clickState.count &gt;= 3) {
-          audioSrc = chordCard.getAttribute(&#39;data-strum&#39;);
-          feedbackClass = &#39;play-strum&#39;;
-          playType = &#39;strum&#39;;
+        if (clickState.count >= 3) {
+          audioSrc = chordCard.getAttribute('data-strum');
+          feedbackClass = 'play-strum';
+          playType = 'strum';
         } else if (clickState.count === 2) {
-          audioSrc = chordCard.getAttribute(&#39;data-fast&#39;);
-          feedbackClass = &#39;play-fast&#39;;
-          playType = &#39;fast&#39;;
+          audioSrc = chordCard.getAttribute('data-fast');
+          feedbackClass = 'play-fast';
+          playType = 'fast';
         } else {
-          audioSrc = chordCard.getAttribute(&#39;data-slow&#39;);
-          feedbackClass = &#39;play-slow&#39;;
-          playType = &#39;slow&#39;;
+          audioSrc = chordCard.getAttribute('data-slow');
+          feedbackClass = 'play-slow';
+          playType = 'slow';
         }
 
         clickState.count = 0;
 
         if (!audioSrc) {
-          if (window.showToast) window.showToast(&quot;Audio source missing!&quot;, &quot;error&quot;);
+          if (window.showToast) window.showToast("Audio source missing!", "error");
           return;
         }
 
@@ -1680,14 +1680,14 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
             playQueue.push(clickData);
           }
         } catch (err) {
-          if (window.showToast) window.showToast(&quot;Audio not available for this chord.&quot;, &quot;error&quot;);
+          if (window.showToast) window.showToast("Audio not available for this chord.", "error");
         }
       }, 300);
     });
 
-    window.addEventListener(&#39;storage&#39;, function (e) {
-      if (e.key === &#39;user_pref_chordSound&#39;) {
-        if (e.newValue !== &#39;true&#39;) {
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'user_pref_chordSound') {
+        if (e.newValue !== 'true') {
           stopCurrentPlayback();
         }
       }
