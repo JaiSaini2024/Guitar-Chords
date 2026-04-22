@@ -167,7 +167,7 @@
 
 .cw .chord {
     position: absolute;
-    bottom: 1.8em;
+    bottom: 20px;
     left: 0;
     font-weight: bold;
     white-space: nowrap;
