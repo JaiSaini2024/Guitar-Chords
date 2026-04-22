@@ -182,7 +182,7 @@
 /* Media Queries for Mobile */
 @media (max-width: 768px) {
     .song p { font-size: 15px; line-height: 3.0; }
-    .cw .chord { font-size: 12px; bottom: 1.6em; line-height: 1; }
+    .cw .chord { font-size: 12px; bottom: 24px; line-height: 1; }
 }
 
 @media (max-width: 480px) {
