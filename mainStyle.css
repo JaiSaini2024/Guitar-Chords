@@ -697,19 +697,22 @@ stroke:black;
 }
   
 .player-controls {
-	display: grid;
-	grid-template-areas: "stop play seek loop mute volume";
-	grid-template-columns: auto auto 1fr auto auto auto;
-	//max-width: 31.25rem;
-	
-	> div {
-		border-right: 1px solid var(--bodyB);
-		
-		&:last-child {
-			border-right: none;
-		}
-	}
+    display: grid;
+    grid-template-areas: "stop play seek loop mute volume";
+    grid-template-columns: auto auto 1fr auto auto auto;
+    /* max-width: 31.25rem; */
 }
+
+/* Direct children */
+.player-controls > div {
+    border-right: 1px solid var(--bodyB);
+}
+
+/* Last child border remove */
+.player-controls > div:last-child {
+    border-right: none;
+}
+
 
 .player-control {
 	background-color: var(--bodyB);
