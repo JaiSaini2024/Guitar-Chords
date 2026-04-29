@@ -1,73 +1,41 @@
 (function() {
-    const root = document.getElementById('carousel');
-    if (!root) return;
+    const track = document.getElementById('wogSortTrack');
+    if(!track) return;
+    const label = track.getAttribute('data-label');
+    const count = track.getAttribute('data-count') || 10;
 
-    const label = root.getAttribute('data-label') || "Hindi Praise Song";
-    const count = root.getAttribute('data-count') || 10;
-    let imgSelected = 0;
-    let elementImg = [];
+    document.getElementById('wogLabelHeading').innerText = label;
+    document.getElementById('wogLabelLink').href = `/search/label/${encodeURIComponent(label)}`;
 
-    window.loadCarousel = function(json) {
+    window.wogScroll = function(dir) {
+        const scrollStep = track.clientWidth * 0.8;
+        track.scrollBy({ left: dir * scrollStep, behavior: 'smooth' });
+    };
+
+    const feedUrl = `/feeds/posts/summary/-/${encodeURIComponent(label)}?alt=json-in-script&max-results=${count}&callback=loadSortedSlider`;
+
+    window.loadSortedSlider = function(json) {
         const entries = json.feed.entry || [];
-        
-        // 1. A to Z Sorting[cite: 1]
-        entries.sort((a, b) => a.title.$t.localeCompare(b.title.$t));
+        entries.sort((a, b) => a.title.$t.toLowerCase().localeCompare(b.title.$t.toLowerCase()));
 
         let html = "";
-        entries.forEach((e, index) => {
+        entries.forEach(e => {
             const title = e.title.$t;
             const link = e.link.find(l => l.rel === 'alternate').href;
-            const thumb = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's600') : 'https://via.placeholder.com/600x400';
+            const thumb = e.media$thumbnail ? e.media$thumbnail.url.replace('s72-c', 's400') : 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcpq6A0XpwnhevzSY9yXW2EZ_DP8fgVGLcgZT3m_JrNd-Rhvz1_zHBc4Gpon5HRsNssedmwT_zhEPTeDB0DWkn74TccwY3a4XznVDHKbAzVhQaSmgfmozoOkQ9JpxlPk4K65rmCS-57cMi8VSEH6TAL6_bNzR6lN4yyMVO1zaTnLY0KQ4UWJdlYBq1dRbl/s1080/woglac.webp';
 
             html += `
-                <div class="slideImg" data-index="${index}">
-                    <img src="${thumb}" alt="${title}">
-                    <div class="slide-info">
-                        <a href="${link}" class="slide-title">${title}</a>
+                <div class="wog-slide">
+                    <a href="${link}"><img src="${thumb}" alt="${title}"></a>
+                    <div class="wog-slide-info">
+                        <a href="${link}" class="wog-slide-title">${title}</a>
                     </div>
                 </div>`;
         });
-        
-        root.innerHTML = html;
-        elementImg = root.getElementsByClassName('slideImg');
-        normalizeSlide();
-        
-        // Auto setup clicks
-        Array.from(elementImg).forEach(el => {
-            el.addEventListener('click', (e) => {
-                imgSelected = parseInt(el.getAttribute('data-index'));
-                normalizeSlide();
-            });
-        });
+        track.innerHTML = html || "<p style='padding:20px;'>No posts found.</p>";
     };
-
-    window.moveSlide = function(dir) {
-        imgSelected += dir;
-        if (imgSelected < 0) imgSelected = 0;
-        if (imgSelected >= elementImg.length) imgSelected = elementImg.length - 1;
-        normalizeSlide();
-    };
-
-    // CodePen Normalization Logic
-    function normalizeSlide() {
-        if (!elementImg.length) return;
-        
-        Array.from(elementImg).forEach(el => {
-            el.classList.remove("hideLeft","prevLeftSecond","prev","selected","next","nextRightSecond","hideRight");
-        });
-
-        elementImg[imgSelected].classList.add("selected");
-
-        if (imgSelected > 0) elementImg[imgSelected-1]?.classList.add("prev");
-        if (imgSelected > 1) elementImg[imgSelected-2]?.classList.add("prevLeftSecond");
-        if (imgSelected > 2) elementImg[imgSelected-3]?.classList.add("hideLeft");
-
-        if (imgSelected + 1 < elementImg.length) elementImg[imgSelected+1]?.classList.add("next");
-        if (imgSelected + 2 < elementImg.length) elementImg[imgSelected+2]?.classList.add("nextRightSecond");
-        if (imgSelected + 3 < elementImg.length) elementImg[imgSelected+3]?.classList.add("hideRight");
-    }
 
     const script = document.createElement('script');
-    script.src = `/feeds/posts/summary/-/${encodeURIComponent(label)}?alt=json-in-script&max-results=${count}&callback=loadCarousel`;
+    script.src = feedUrl;
     document.body.appendChild(script);
 })();
