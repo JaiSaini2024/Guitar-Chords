@@ -412,49 +412,18 @@ function computeDifficulty() {
  * Enhanced Barre Detection
  */
 function detectBarreFromShape(shape) {
-    // Validate input
-    if (!shape || typeof shape !== 'string') {
-        return { isBarre: false, fret: null };
-    }
-
-    // Normalize (lowercase, trim)
-    shape = shape.trim().toLowerCase();
-
-    // Ignore invalid shapes
-    if (shape.length !== 6 || /^x+$/.test(shape)) {
-        return { isBarre: false, fret: null };
-    }
-
+    if (!shape || typeof shape !== 'string') return false;
     const fretCounts = {};
-
-    for (let i = 0; i < shape.length; i++) {
-        const f = shape[i];
-
-        // Skip muted & open strings
-        if (f === 'x' || f === '0') continue;
-
-        // Only allow valid fret numbers
-        if (!isNaN(f)) {
+    const notes = shape.split('');
+    notes.forEach(f => {
+        if (f !== 'x' && f !== '0') {
             fretCounts[f] = (fretCounts[f] || 0) + 1;
         }
-    }
-
-    // Find barre (>=3 strings on same fret)
-    let barreFret = null;
-    let maxCount = 0;
-
-    for (const [fret, count] of Object.entries(fretCounts)) {
-        if (count >= 3 && count > maxCount) {
-            maxCount = count;
-            barreFret = parseInt(fret);
-        }
-    }
-
-    return {
-        isBarre: barreFret !== null,
-        fret: barreFret
-    };
+    });
+    // Agar ek hi fret par 3 ya usse zyada strings dabani padein toh wo Barre hai
+    return Object.values(fretCounts).some(count => count >= 3);
 }
+
 
 // Ensure execution after chord rendering
 window.addEventListener('load', () => {
