@@ -349,7 +349,9 @@ function computeDifficulty() {
         const parsed = (typeof parseChord === 'function') ? parseChord(ch) : null;
 
         // Barre detection (High difficulty factor)
-        if (shape && detectBarreFromShape(shape)) score += 5;
+        const barre = detectBarreFromShape(shape);
+        if (barre) score += 5;
+
         
         // Slash chords (G/B, D/F#) - Professional/Intermediate level
         if (ch.includes('/')) score += 3;
@@ -412,17 +414,58 @@ function computeDifficulty() {
  * Enhanced Barre Detection
  */
 function detectBarreFromShape(shape) {
-    if (!shape || typeof shape !== 'string') return false;
+    if (!shape || typeof shape !== 'string') {
+        return null;
+    }
+
+    shape = shape.trim().toLowerCase();
+
+    if (shape.length !== 6 || /^x+$/.test(shape)) {
+        return null;
+    }
+
     const fretCounts = {};
-    const notes = shape.split('');
-    notes.forEach(f => {
+    const positions = shape.split('');
+
+    // Count frets
+    positions.forEach(f => {
         if (f !== 'x' && f !== '0') {
             fretCounts[f] = (fretCounts[f] || 0) + 1;
         }
     });
-    // Agar ek hi fret par 3 ya usse zyada strings dabani padein toh wo Barre hai
-    return Object.values(fretCounts).some(count => count >= 3);
+
+    // Find strongest barre (>=3 strings)
+    let bestFret = null;
+    let maxCount = 0;
+
+    for (const [fret, count] of Object.entries(fretCounts)) {
+        if (count >= 3 && count > maxCount) {
+            maxCount = count;
+            bestFret = fret;
+        }
+    }
+
+    if (!bestFret) return null;
+
+    // ✅ EXTRA: continuous check (real guitar logic)
+    let continuous = 0;
+    let maxContinuous = 0;
+
+    for (const f of positions) {
+        if (f === bestFret) {
+            continuous++;
+            maxContinuous = Math.max(maxContinuous, continuous);
+        } else {
+            continuous = 0;
+        }
+    }
+
+    // Agar continuous 3 strings nahi hai → fake barre reject
+    if (maxContinuous < 3) return null;
+
+    return bestFret; // string (important for comparison)
 }
+
 
 
 // Ensure execution after chord rendering
