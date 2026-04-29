@@ -766,7 +766,7 @@ stroke:black;
 	}
 	
 	.player-progress {
-  background-color: var(--waveB);
+  background-color: var(--th-5);
   height: 100%;
   width: 0%;
   position: absolute;
