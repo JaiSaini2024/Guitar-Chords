@@ -412,16 +412,21 @@ function computeDifficulty() {
  * Enhanced Barre Detection
  */
 function detectBarreFromShape(shape) {
-    if (!shape || typeof shape !== 'string') return false;
+    if (!shape || shape === 'xxxxxx') return null;
     const fretCounts = {};
     const notes = shape.split('');
+    
     notes.forEach(f => {
         if (f !== 'x' && f !== '0') {
             fretCounts[f] = (fretCounts[f] || 0) + 1;
         }
     });
-    // Agar ek hi fret par 3 ya usse zyada strings dabani padein toh wo Barre hai
-    return Object.values(fretCounts).some(count => count >= 3);
+
+    // Jis fret par 3 ya usse zyada strings hain, wahi barre fret hai
+    for (const [fret, count] of Object.entries(fretCounts)) {
+        if (count >= 3) return fret; 
+    }
+    return null;
 }
 
 // Ensure execution after chord rendering
