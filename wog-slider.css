@@ -1,39 +1,49 @@
-/* --- Carousel Container --- */
+/* --- Carousel Main Wrapper --- */
 .wog-carousel-wrapper {
     position: relative;
     height: 450px;
     width: 100%;
     margin: 40px 0;
     overflow: hidden;
-    background: var(--contentB); /* Plus UI BG */
+    background: var(--contentB); /* Plus UI Background Variable */
     border-radius: 20px;
-}
-
-#carousel {
-    position: relative;
-    height: 100%;
-    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+#carousel {
+    position: relative;
+    height: 380px;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* --- Slide Elements Styling --- */
 .slideImg {
     position: absolute;
     width: 300px;
-    height: 380px;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 350px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
     opacity: 0;
     z-index: 1;
     cursor: pointer;
+    background: var(--bodyB);
+    border-radius: 15px;
+    border: 1px solid var(--contentL);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .slideImg img {
     width: 100%;
-    height: 250px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 15px 15px 0 0;
+    transition: width 1s; /* CodePen transition sync */
 }
 
 .slide-info {
@@ -42,49 +52,108 @@
 }
 
 .slide-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--headC);
+    color: var(--headC); /* Plus UI Heading Variable[cite: 1] */
+    text-decoration: none;
+    line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* --- 3D States from CodePen --- */
-.slideImg.selected { opacity: 1; z-index: 10; transform: scale(1) translateX(0); }
-.slideImg.prev { opacity: 0.8; z-index: 5; transform: scale(0.8) translateX(-110%); }
-.slideImg.next { opacity: 0.8; z-index: 5; transform: scale(0.8) translateX(110%); }
-.slideImg.prevLeftSecond { opacity: 0.4; z-index: 4; transform: scale(0.6) translateX(-180%); }
-.slideImg.nextRightSecond { opacity: 0.4; z-index: 4; transform: scale(0.6) translateX(180%); }
-.slideImg.hideLeft { opacity: 0; transform: scale(0.4) translateX(-250%); }
-.slideImg.hideRight { opacity: 0; transform: scale(0.4) translateX(250%); }
+/* --- 3D Transformations (CodePen Style) --- */
 
-/* --- Navigation Buttons --- */
+/* Selected Slide (Center Focus) */
+.slideImg.selected {
+    z-index: 10;
+    opacity: 1;
+    transform: translateY(-50%) translateX(-50%) scale(1.1);
+}
+
+/* Previous & Next Slides (Side Perspective) */
+.slideImg.prev {
+    z-index: 5;
+    left: 30%;
+    opacity: 1;
+    transform: translateY(-35%) translateX(-50%) scale(0.85);
+}
+
+.slideImg.next {
+    z-index: 5;
+    left: 70%;
+    opacity: 1;
+    transform: translateY(-35%) translateX(-50%) scale(0.85);
+}
+
+/* Secondary Hidden Perspective (Further Back) */
+.slideImg.prevLeftSecond {
+    z-index: 4;
+    left: 15%;
+    opacity: 0.6;
+    transform: translateY(-25%) translateX(-50%) scale(0.7);
+}
+
+.slideImg.nextRightSecond {
+    z-index: 4;
+    left: 85%;
+    opacity: 0.6;
+    transform: translateY(-25%) translateX(-50%) scale(0.7);
+}
+
+/* Fully Hidden Slides (Out of view) */
+.slideImg.hideLeft {
+    left: 0%;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50%) scale(0.5);
+}
+
+.slideImg.hideRight {
+    left: 100%;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50%) scale(0.5);
+}
+
+/* --- Controls Button Styling --- */
 .wog-controls {
     position: absolute;
     bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
-    gap: 5px;
     z-index: 20;
 }
 
 .wog-controls button {
-    background: var(--linkC);
-    color: #fff;
+    background: #272727; /* CodePen Primary Dark */
+    color: #ffffff;
     border: none;
-    padding: 10px 25px;
-    font-weight: 700;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 12px 25px;
     cursor: pointer;
+    opacity: 0.7;
     transition: 0.3s;
 }
 
-.wog-controls #prev { border-radius: 50px 0 0 50px; }
-.wog-controls #next { border-radius: 0 50px 50px 0; }
+.wog-controls button:hover {
+    opacity: 1;
+    background: var(--linkC); /* Theme Accent on Hover[cite: 1] */
+}
 
-/* --- Dark Mode Sync (.drK) ---[cite: 1] */
-.drK .wog-carousel-wrapper { background: var(--darkBa) !important; }
-.drK .slide-title { color: var(--darkT) !important; }
-.drK .wog-controls button { background: var(--darkU) !important; color: var(--darkB); }
+#prev { border-radius: 100px 0 0 100px; text-align: right; }
+#next { border-radius: 0 100px 100px 0; text-align: left; }
+
+/* --- Dark Mode Adaptation (.drK) ---[cite: 1] */
+.drK .slideImg {
+    background: var(--darkBa) !important;
+    border-color: rgba(255,255,255,0.1);
+}
+
+.drK .slide-title {
+    color: var(--darkT) !important;
+}
+
+.drK .wog-controls button {
+    background: var(--darkU) !important;
+    color: var(--darkB);
+}
