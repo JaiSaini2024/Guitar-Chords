@@ -751,7 +751,7 @@ stroke:black;
 .player-timeline {
     background-color: var(--bodyB);
     height: 50%;
-    //max-width: 12.8125rem;
+    max-width: 12.8125rem;
 	width: 100%;
     position: relative;
     overflow: hidden;
