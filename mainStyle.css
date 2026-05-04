@@ -704,30 +704,65 @@ stroke:black;
 }
 
 /* Direct children */
-.player-controls > div {
-    display: flex; /* Ensures inner content can be centered */
-    align-items: center; /* Vertical centering */
-    justify-content: center; /* Horizontal centering */
-    border-right: 1px solid var(--bodyB); /* Maintains existing separator[cite: 1] */
+/* Container alignment fix */
+.player-controls {
+    display: grid;
+    grid-template-areas: "stop play seek loop mute volume";
+    grid-template-columns: auto auto 1fr auto auto auto;
+    align-items: stretch; /* Isse sabhi items ki height same rahegi */
+    background: var(--bodyB); /* Pure row ka default background */
 }
 
-/* Map specific divs to their defined grid areas[cite: 1] */
+/* Individual cell alignment */
+.player-controls > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--bodyB); /* Separator maintain karne ke liye */
+    height: 100%; /* Height mismatch fix karne ke liye */
+}
+
+/* Timeline (Seek bar) fix */
+.player-timeline {
+    background-color: var(--bodyB); /* White background jo screenshot mein blue dikh raha hai[cite: 1] */
+    height: 100%; /* Parent div ki height fill karega */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+    grid-area: seek; /* Proper grid mapping[cite: 1] */
+}
+
+/* Progress bar alignment */
+.player-progress-container {
+    position: relative;
+    height: 6px; /* Seek bar ki motai[cite: 1] */
+    background: rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+/* Time display layout fix */
+.player-time {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 11px;
+    margin-top: 4px; /* Seek bar se thodi duri[cite: 1] */
+}
+
+/* Specific mapping[cite: 1] */
 .player-controls > .stop { grid-area: stop; }
 .player-controls > .play { grid-area: play; }
-.player-controls > .timeline { grid-area: seek; }
 .player-controls > .loop { grid-area: loop; }
 .player-controls > .mute { grid-area: mute; }
 .player-controls > .volume { grid-area: volume; }
 
-/* Remove the border from the last control item[cite: 1] */
-.player-controls > div:last-child {
-    border-right: none;[cite: 1]
-}
-
-/* Last child border remove */
+/* Last border remove[cite: 1] */
 .player-controls > div:last-child {
     border-right: none;
 }
+
+
 
 
 .player-control {
