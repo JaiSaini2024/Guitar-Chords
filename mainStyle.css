@@ -677,18 +677,18 @@ stroke:black;
   transform: translateX(-50%);
   z-index: 8; /* Make sure it's above the mobile menu */
   width: max-content;
-  /* background-image: linear-gradient(90deg, #fff 0, darken(#fff, 12%)); */
+ 	// background-image: linear-gradient(90deg, #fff 0, darken(#fff, 12%));
 }
 
 .player {
-	/* background:var(--linkC); */
+	background:var(--linkC);
 	border-radius: 0.3125rem;
-	border: 1px solid $player-border-color;
+//	border: 1px solid $player-border-color;
 	box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
 	display: inline-block;
 	line-height: 1.5625;
 	position: relative;
-    color:var(--linkC);
+    color:white;
 }
 .drK .player {
   background: linear-gradient(135deg, #15803d, #22c55e) !important;
@@ -697,73 +697,19 @@ stroke:black;
 }
   
 .player-controls {
-    display: grid;
-    grid-template-areas: "stop play seek loop mute volume";
-    grid-template-columns: auto auto 1fr auto auto auto;
-    /* max-width: 31.25rem; */
+	display: grid;
+	grid-template-areas: "stop play seek loop mute volume";
+	grid-template-columns: auto auto 1fr auto auto auto;
+	//max-width: 31.25rem;
+	
+	> div {
+		border-right: 1px solid var(--bodyB);
+		
+		&:last-child {
+			border-right: none;
+		}
+	}
 }
-
-/* Direct children */
-/* Container alignment fix */
-.player-controls {
-    display: grid;
-    grid-template-areas: "stop play seek loop mute volume";
-    grid-template-columns: auto auto 1fr auto auto auto;
-    align-items: stretch; /* Isse sabhi items ki height same rahegi */
-    background: var(--bodyB); /* Pure row ka default background */
-}
-
-/* Individual cell alignment */
-.player-controls > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid var(--bodyB); /* Separator maintain karne ke liye */
-    height: 100%; /* Height mismatch fix karne ke liye */
-}
-
-/* Timeline (Seek bar) fix */
-.player-timeline {
-    background-color: var(--bodyB); /* White background jo screenshot mein blue dikh raha hai[cite: 1] */
-    height: 100%; /* Parent div ki height fill karega */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 10px;
-    grid-area: seek; /* Proper grid mapping[cite: 1] */
-}
-
-/* Progress bar alignment */
-.player-progress-container {
-    position: relative;
-    height: 6px; /* Seek bar ki motai[cite: 1] */
-    background: rgba(0,0,0,0.1);
-    width: 100%;
-}
-
-/* Time display layout fix */
-.player-time {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 11px;
-    margin-top: 4px; /* Seek bar se thodi duri[cite: 1] */
-}
-
-/* Specific mapping[cite: 1] */
-.player-controls > .stop { grid-area: stop; }
-.player-controls > .play { grid-area: play; }
-.player-controls > .loop { grid-area: loop; }
-.player-controls > .mute { grid-area: mute; }
-.player-controls > .volume { grid-area: volume; }
-
-/* Last border remove[cite: 1] */
-.player-controls > div:last-child {
-    border-right: none;
-}
-
-
-
 
 .player-control {
 	background-color: var(--bodyB);
@@ -799,7 +745,7 @@ stroke:black;
 .player-timeline {
     background-color: var(--bodyB);
     height: 50%;
-    max-width: 12.8125rem;
+    //max-width: 12.8125rem;
 	width: 100%;
     position: relative;
     overflow: hidden;
@@ -813,8 +759,8 @@ stroke:black;
 		top: 0;
 	}
 	
-.player-progress {
-  background-color: var(--th-5);
+	.player-progress {
+  background-color: var(--waveB);
   height: 100%;
   width: 0%;
   position: absolute;
@@ -905,14 +851,21 @@ stroke:black;
   cursor: pointer;
 }
 
-.player-volume::-webkit-slider-thumb {
+  .player-volume::-webkit-slider-thumb {
   -webkit-appearance: none;
+  width: 0;
+  height: 0;
+  box-shadow: -1000px 0 0 1000px #41b375; /* fill progress color */
+}
+  .player-volume::-webkit-slider-thumb {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--linkC);
+	background:var(--linkC);
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
 }
-
 .drK .player-volume::-webkit-slider-thumb{
   background: linear-gradient(135deg, #15803d, #22c55e) !important;
   color: #ffffff !important;
