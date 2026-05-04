@@ -705,8 +705,23 @@ stroke:black;
 
 /* Direct children */
 .player-controls > div {
-    border-right: 1px solid var(--bodyB);
-    align-items: center;
+    display: flex; /* Ensures inner content can be centered */
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    border-right: 1px solid var(--bodyB); /* Maintains existing separator[cite: 1] */
+}
+
+/* Map specific divs to their defined grid areas[cite: 1] */
+.player-controls > .stop { grid-area: stop; }
+.player-controls > .play { grid-area: play; }
+.player-controls > .timeline { grid-area: seek; }
+.player-controls > .loop { grid-area: loop; }
+.player-controls > .mute { grid-area: mute; }
+.player-controls > .volume { grid-area: volume; }
+
+/* Remove the border from the last control item[cite: 1] */
+.player-controls > div:last-child {
+    border-right: none;[cite: 1]
 }
 
 /* Last child border remove */
