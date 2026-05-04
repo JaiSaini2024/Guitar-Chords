@@ -681,14 +681,14 @@ stroke:black;
 }
 
 .player {
-	background:var(--linkC);
+	/* background:var(--linkC); */
 	border-radius: 0.3125rem;
 	border: 1px solid $player-border-color;
 	box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
 	display: inline-block;
 	line-height: 1.5625;
 	position: relative;
-    color:white;
+    color:var(--linkC);
 }
 .drK .player {
   background: linear-gradient(135deg, #15803d, #22c55e) !important;
