@@ -706,9 +706,7 @@ stroke:black;
 /* Direct children */
 .player-controls > div {
     border-right: 1px solid var(--bodyB);
-    display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 /* Last child border remove */
